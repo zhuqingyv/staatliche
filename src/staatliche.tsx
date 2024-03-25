@@ -1,5 +1,5 @@
 import { createContext, FC, useReducer as reactUseReducer, useContext, Dispatch } from 'react';
-import { DispatchParams, ReducerParams, RewriteHandle, UpdateHandle, UpdateEnum, StoreProviderProps } from './types';
+import { DispatchParams, ReducerParams, RewriteHandle, UpdateHandle, UpdateEnum, StoreProviderProps, DispatchHandle } from './types';
 
 const useMode = async (reducerParams: ReducerParams) => {
   // 更新模式
@@ -83,7 +83,7 @@ export const StoreProvider: FC<any> = ({ children, state: defaultState, mode }: 
   )
 };
 
-export const useStore = (mode?: any) => {
+export const useStore = (mode?: { [key: string]: DispatchHandle }) => {
   const state = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
   const commonMode = useContext(ModeContext);
