@@ -19,6 +19,12 @@ const App = () => {
     });
   };
 
+  const onSetValueRandom = () => {
+    dispatch({
+      type: 'setValueRandom'
+    })
+  };
+
   console.log(state)
 
   return (
@@ -26,6 +32,7 @@ const App = () => {
       <div>count: {state.count}</div>
       <button onClick={onClick}>加1</button>
       <button onClick={onSet5}>设置5</button>
+      <button onClick={onSetValueRandom}>set value random</button>
     </div>
   )
 };

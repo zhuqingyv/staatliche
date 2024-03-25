@@ -10,15 +10,15 @@ const useMode = async (reducerParams: ReducerParams) => {
   // 重写模式
   const rewrite = async (handle: RewriteHandle): Promise<any> => {
     changeMode = UpdateEnum.RE_WRITE;
-    return await handle(state);
+    return await handle(state, payload);
   };
   // 更新模式
   const update = async (handle: UpdateHandle): Promise<any> => {
     changeMode = UpdateEnum.UPDATE;
-    await handle(state);
+    await handle(state, payload);
   };
 
-  const newState = await handle({ rewrite, update });
+  const newState = await handle({ rewrite, update, payload, state });
 
   switch (changeMode) {
     case UpdateEnum.RE_WRITE: {
@@ -69,8 +69,8 @@ const useReducer = (initState: any) => {
   return [state, reducerProxy] as const; // 返回一个元组
 };
 
-export const StoreProvider: FC<any> = ({ children, value, mode }: StoreProviderProps) => {
-  const [state, dispatch] = useReducer(value);
+export const StoreProvider: FC<any> = ({ children, state: defaultState, mode }: StoreProviderProps) => {
+  const [state, dispatch] = useReducer(defaultState);
 
   return (
     <StateContext.Provider value={state}>

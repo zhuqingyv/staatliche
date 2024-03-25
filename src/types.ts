@@ -8,18 +8,20 @@ export interface OriginalDispatchParams extends DispatchParams {
   callback: () => any;
 };
 
-export type RewriteHandle = (state: any) => Promise<any>;
-export type UpdateHandle = (state: any) => any;
+export type RewriteHandle = (state: any, payload?: any) => Promise<any>;
+export type UpdateHandle = (state: any, payload?: any) => any;
 
 export interface DispatchUpdaterParams {
   rewrite: (handle: RewriteHandle) => Promise<any>;
   update: (handle: UpdateHandle) => Promise<any>;
+  state: any,
+  payload?: any;
 };
 
 export interface ReducerParams {
   state: any;
   callback: (state: any) => any;
-  handle: (params: DispatchUpdaterParams) => Promise<any>;
+  handle: (params: DispatchUpdaterParams, payload?: any) => Promise<any>;
   type: string;
   payload?: any;
 };
@@ -32,7 +34,7 @@ export enum UpdateEnum {
 
 export interface StoreProviderProps {
   children?: any;
-  value: any;
+  state: any;
   mode: {
     [key: string]: (params: DispatchUpdaterParams) => Promise<any>;
   }
