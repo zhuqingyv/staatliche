@@ -52,12 +52,12 @@ export const StateContext = createContext<any>({});
 export const DispatchContext = createContext<any>(useMode);
 export const ModeContext = createContext<any>({});
 
-const useReducer = (initState: any, subscribe: (state: any) => any) => {
+const useReducer = (initState: any, subscribe: (state: any, dispatch: any) => any) => {
   // 初始化state值
   const [state, dispatch] = reactUseReducer(
     (...args: any[]) => {
       const newState = { ...args[1] };
-      subscribe(newState, dispatch);
+      queueMicrotask(() => subscribe(newState, dispatch))
       return newState
     },
     initState
