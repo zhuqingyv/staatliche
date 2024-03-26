@@ -39,5 +39,6 @@ export interface StoreProviderProps {
   state: any;
   mode: {
     [key: string]: DispatchHandle;
-  }
+  },
+  subscribe?: (state: any) => any
 }

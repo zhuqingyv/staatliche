@@ -52,10 +52,14 @@ export const StateContext = createContext<any>({});
 export const DispatchContext = createContext<any>(useMode);
 export const ModeContext = createContext<any>({});
 
-const useReducer = (initState: any) => {
+const useReducer = (initState: any, subscribe: (state: any) => any) => {
   // 初始化state值
   const [state, dispatch] = reactUseReducer(
-    (...args: any[]) => ({ ...args[1] }),
+    (...args: any[]) => {
+      const newState = { ...args[1] };
+      subscribe(newState);
+      return newState
+    },
     initState
   ) as [any, Dispatch<any>];
 
@@ -69,8 +73,8 @@ const useReducer = (initState: any) => {
   return [state, reducerProxy] as const; // 返回一个元组
 };
 
-export const StoreProvider: FC<any> = ({ children, state: defaultState, mode }: StoreProviderProps) => {
-  const [state, dispatch] = useReducer(defaultState);
+export const StoreProvider: FC<any> = ({ children, state: defaultState, mode, subscribe = () => null }: StoreProviderProps) => {
+  const [state, dispatch] = useReducer(defaultState, subscribe);
 
   return (
     <StateContext.Provider value={state}>
