@@ -34,11 +34,13 @@ export enum UpdateEnum {
   UPDATE = 'UPDATE'
 }
 
+export interface Mode {
+  [key: string]: DispatchHandle;
+}
+
 export interface StoreProviderProps {
   children?: any;
   state: any;
-  mode: {
-    [key: string]: DispatchHandle;
-  },
+  mode: Mode,
   subscribe?: (state: any) => any
 }
