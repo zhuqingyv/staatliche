@@ -57,7 +57,7 @@ const useReducer = (initState: any, subscribe: (state: any) => any) => {
   const [state, dispatch] = reactUseReducer(
     (...args: any[]) => {
       const newState = { ...args[1] };
-      subscribe(newState);
+      subscribe(newState, dispatch);
       return newState
     },
     initState

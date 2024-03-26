@@ -42,5 +42,5 @@ export interface StoreProviderProps {
   children?: any;
   state: any;
   mode: Mode,
-  subscribe?: (state: any) => any
+  subscribe?: (state: any, dispatch: any) => any
 }
