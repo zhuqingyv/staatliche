@@ -1,5 +1,5 @@
 import { createContext, FC, useReducer as reactUseReducer, useContext, Dispatch } from 'react';
-import { DispatchParams, ReducerParams, RewriteHandle, UpdateHandle, UpdateEnum, StoreProviderProps, DispatchHandle } from './types';
+import { Mode, DispatchParams, ReducerParams, RewriteHandle, UpdateHandle, UpdateEnum, StoreProviderProps, UseStoreType } from './types';
 
 export const createStore = () => {
   const useMode = async (reducerParams: ReducerParams) => {
@@ -9,14 +9,14 @@ export const createStore = () => {
     const { state, type, payload, handle, callback } = reducerParams;
   
     // 重写模式
-    const rewrite = async (handle: RewriteHandle): Promise<any> => {
+    const rewrite = async (method: RewriteHandle): Promise<any> => {
       changeMode = UpdateEnum.RE_WRITE;
-      return await handle(state, payload);
+      return await method(state, payload);
     };
     // 更新模式
-    const update = async (handle: UpdateHandle): Promise<any> => {
+    const update = async (method: UpdateHandle): Promise<any> => {
       changeMode = UpdateEnum.UPDATE;
-      await handle(state, payload);
+      await method(state, payload);
     };
   
     const newState = await handle({ rewrite, update, payload, state });
@@ -88,7 +88,7 @@ export const createStore = () => {
     )
   };
   
-  const useStore = (mode?: { [key: string]: DispatchHandle }) => {
+  const useStore: UseStoreType = (mode?: Mode) => {
     const state = useContext(StateContext);
     const dispatch = useContext(DispatchContext);
     const commonMode = useContext(ModeContext);

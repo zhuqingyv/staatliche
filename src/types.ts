@@ -18,12 +18,12 @@ export interface DispatchUpdaterParams {
   payload?: any;
 };
 
-export type DispatchHandle = (params: DispatchUpdaterParams, payload?: any) => Promise<any>;
+export type DispatchHandle = (params: DispatchParams) => Promise<any>;
 
 export interface ReducerParams {
   state: any;
   callback: (state: any) => any;
-  handle: DispatchHandle;
+  handle: (params: DispatchUpdaterParams) => Promise<any>;
   type: string;
   payload?: any;
 };
@@ -44,3 +44,5 @@ export interface StoreProviderProps {
   mode: Mode,
   subscribe?: (state: any) => any
 }
+
+export type UseStoreType = (mode?: Mode) => [any, DispatchHandle];
